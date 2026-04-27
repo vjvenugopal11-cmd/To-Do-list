@@ -151,142 +151,189 @@ function App() {
   const LABELS = ["Work", "Personal", "Idea", "Urgent", "Study"];
 
   return (
-    <div className="app-wrapper" ref={containerRef}>
-      <div className="animated-bg">
-        <div className="blob blob-1"></div>
-        <div className="blob blob-2"></div>
-        <div className="blob blob-3"></div>
+  <div className="app-wrapper" ref={containerRef}>
+    {/* Animated Background */}
+    <div className="animated-bg">
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
+      <div className="blob blob-3"></div>
+    </div>
+
+    <div className="app-container">
+      {/* Header */}
+      <div className="header">
+        <div className="header-content">
+          <h1 className="title">My Tasks</h1>
+          <span className="task-count">
+            {completedCount}/{taskCount} done
+          </span>
+        </div>
       </div>
 
-      <div className="app-container">
-        {/* Header */}
-        <div className="header">
-          <div className="header-content">
-            <h1 className="title">My tasks</h1>
-            <span className="task-count">{taskCount} tasks</span>
+      {/* Server status */}
+      {!serverReady && (
+        <div className="error-banner">
+          <span>⏳ Connecting to server...</span>
+        </div>
+      )}
+
+      {/* Error */}
+      {error && (
+        <div className="error-banner">
+          <span>{error}</span>
+          <button onClick={() => setError(null)}>×</button>
+        </div>
+      )}
+
+      {/* Input Section */}
+      <div className="input-section glass-card">
+        <input
+          className="input-field"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Task title..."
+        />
+
+        <textarea
+          className="input-field note-field"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Add a note..."
+          rows="3"
+        />
+
+        {/* Labels */}
+        <div className="labels-section">
+          <span className="label-text">Labels</span>
+          <div className="label-buttons">
+            {LABELS.map((l) => (
+              <button
+                key={l}
+                className={`label-btn ${label === l ? "active" : ""}`}
+                onClick={() => setLabel(l)}
+              >
+                {l}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Server waking up banner */}
-        {!serverReady && (
-          <div className="error-banner" style={{ background: "rgba(100, 100, 200, 0.3)" }}>
-            <span>⏳ Connecting to server, please wait...</span>
-          </div>
-        )}
-
-        {/* Error */}
-        {error && (
-          <div className="error-banner">
-            <span>{error}</span>
-            <button onClick={() => setError(null)}>×</button>
-          </div>
-        )}
-
-        {/* Input */}
-        <div className="input-section glass-card">
+        {/* Due date */}
+        <div className="due-date-section">
+          <label>Due Date</label>
           <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Task title..."
-          />
-
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Add a note..."
-            rows="3"
-          />
-
-          <select
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-          >
-            {LABELS.map((l) => (
-              <option key={l} value={l}>{l}</option>
-            ))}
-          </select>
-
-          <input
+            className="date-input"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
           />
+        </div>
 
-          <button onClick={addTask} disabled={!serverReady || loading}>
-            {!serverReady ? "Connecting..." : loading ? "Adding..." : "Add task"}
+        <button
+          className="add-task-btn"
+          onClick={addTask}
+          disabled={!serverReady || loading}
+        >
+          {!serverReady ? "Connecting..." : loading ? "Adding..." : "Add Task"}
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="filter-section">
+        {["All", "Active", "Done", ...LABELS].map((f) => (
+          <button
+            key={f}
+            className={`filter-btn ${filter === f ? "active" : ""}`}
+            onClick={() => setFilter(f)}
+          >
+            {f}
           </button>
-        </div>
+        ))}
+      </div>
 
-        {/* Filters */}
-        <div className="filter-section">
-          {["All", "Active", "Done", ...LABELS].map((f) => (
-            <button
-              key={f}
-              className={filter === f ? "active" : ""}
-              onClick={() => handleFilter(f)}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+      {/* Tasks */}
+      <div className="tasks-list">
+        {loading && (
+          <p style={{ textAlign: "center", opacity: 0.6 }}>
+            Loading tasks...
+          </p>
+        )}
 
-        {/* Tasks */}
-        <div className="tasks-list">
-          {loading && <p style={{ textAlign: "center", opacity: 0.6 }}>Loading tasks...</p>}
-          {!loading && tasks.length === 0 && serverReady && (
-            <p style={{ textAlign: "center", opacity: 0.6 }}>No tasks yet. Add one above!</p>
-          )}
-          {tasks.map((task) => (
-            <div key={task._id} className={`task-item ${task.completed ? "completed" : ""}`}>
-              <div className="task-info">
-                <span className="task-title">{task.title}</span>
-                {task.note && <span className="task-note">{task.note}</span>}
-                <div className="task-meta">
-                  {task.label && <span className="task-label">{task.label}</span>}
-                  {task.dueDate && (
-                    <span className="task-due">
-                      Due: {new Date(task.dueDate).toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="task-actions">
-                <button
-                  className={`btn-done ${task.completed ? "btn-undo" : ""}`}
-                  onClick={() => toggleTask(task._id)}
-                >
-                  {task.completed ? "Undo" : "Done"}
-                </button>
-                <button
-                  className="btn-delete"
-                  onClick={() => deleteTask(task._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Progress */}
-        {tasks.length > 0 && (
-          <div className="progress-section">
-            <div className="progress-text">
-              {completedCount} / {taskCount} completed
-            </div>
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: `${(completedCount / taskCount) * 100}%` }}
-              />
-            </div>
+        {!loading && tasks.length === 0 && serverReady && (
+          <div className="empty-state">
+            <span className="empty-icon">📝</span>
+            <p>No tasks yet</p>
+            <p className="empty-subtitle">Add your first task above</p>
           </div>
         )}
+
+        {tasks.map((task) => (
+          <div
+            key={task._id}
+            className={`task-item ${task.completed ? "completed" : ""}`}
+          >
+            {/* Checkbox */}
+            <button
+              className={`checkbox-btn ${task.completed ? "checked" : ""}`}
+              onClick={() => toggleTask(task._id)}
+            >
+              {task.completed ? "✓" : ""}
+            </button>
+
+            {/* Content */}
+            <div className="task-content">
+              <div className="task-title-row">
+                <span className="task-title">{task.title}</span>
+
+                {task.label && (
+                  <span className="task-label">{task.label}</span>
+                )}
+              </div>
+
+              {task.note && (
+                <div className="task-note">{task.note}</div>
+              )}
+
+              {task.dueDate && (
+                <div className="task-date">
+                  Due: {new Date(task.dueDate).toLocaleDateString()}
+                </div>
+              )}
+            </div>
+
+            {/* Delete */}
+            <button
+              className="delete-btn"
+              onClick={() => deleteTask(task._id)}
+            >
+              ×
+            </button>
+          </div>
+        ))}
       </div>
+
+      {/* Progress */}
+      {tasks.length > 0 && (
+        <div className="progress-section">
+          <div className="progress-info">
+            {completedCount} of {taskCount} completed
+          </div>
+
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{
+                width: `${(completedCount / taskCount) * 100}%`,
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+              
 }
 
 export default App;
