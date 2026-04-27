@@ -827,9 +827,15 @@ body {
     align-items: flex-start;
     gap: 8px;
   }
-
+  .date
   .date-input {
+    margin-left: 40px;
     width: 100%;
+  }
+
+    .due-date-section label {
+    margin-top: 25px;
+
   }
 
   .filter-section {
@@ -924,10 +930,12 @@ body {
   }
 
   .due-date-section label {
+    margin-top: 30px;
     font-size: 0.85rem;
   }
 
   .date-input {
+    margin-left:25px ;
     width: 100%;
     padding: 9px 12px;
     font-size: 0.9rem;
