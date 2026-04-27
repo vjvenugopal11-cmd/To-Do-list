@@ -165,7 +165,7 @@ function App() {
         <div className="header-content">
           <h1 className="title">My Tasks</h1>
           <span className="task-count">
-            {completedCount}/{taskCount} done
+            {completedCount}/{taskCount} <i class="bi bi-check2-all">done</i>
           </span>
         </div>
       </div>
@@ -188,7 +188,7 @@ function App() {
       {/* Input Section */}
       <div className="input-section glass-card">
         <input
-          className="input-field"
+          className="input-field glass"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -196,7 +196,7 @@ function App() {
         />
 
         <textarea
-          className="input-field note-field"
+          className="input-field note-field glass"
           value={note}
           onChange={(e) => setNote(e.target.value)}
           placeholder="Add a note..."
@@ -220,7 +220,7 @@ function App() {
         </div>
 
         {/* Due date */}
-        <div className="due-date-section">
+        <div className="due-date-section glass">
           <label>Due Date</label>
           <input
             className="date-input"
@@ -231,7 +231,7 @@ function App() {
         </div>
 
         <button
-          className="add-task-btn"
+          className="add-task-btn glass"
           onClick={addTask}
           disabled={!serverReady || loading}
         >
@@ -240,7 +240,7 @@ function App() {
       </div>
 
       {/* Filters */}
-      <div className="filter-section">
+      <div className="filter-section glass">
         {["All", "Active", "Done", ...LABELS].map((f) => (
           <button
             key={f}
@@ -253,7 +253,7 @@ function App() {
       </div>
 
       {/* Tasks */}
-      <div className="tasks-list">
+      <div className="tasks-list glass">
         {loading && (
           <p style={{ textAlign: "center", opacity: 0.6 }}>
             Loading tasks...
@@ -282,7 +282,7 @@ function App() {
             </button>
 
             {/* Content */}
-            <div className="task-content">
+            <div className="task-content glass">
               <div className="task-title-row">
                 <span className="task-title">{task.title}</span>
 
