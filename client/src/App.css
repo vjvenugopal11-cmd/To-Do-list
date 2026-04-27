@@ -194,7 +194,7 @@ body {
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  font-size: 1rem;
+  font-size: 900;
   font-family: 'Poppins', sans-serif;
   color: var(--text-secondary);
   transition: all 0.25s ease;
@@ -213,7 +213,7 @@ body {
 .input-field:focus ~ .input-label,
 .input-field:not(:placeholder-shown) ~ .input-label {
   top: 0;
-  font-size: 0.75rem;
+  font-size: 2rem;
   color: var(--primary);
 }
 
