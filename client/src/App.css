@@ -157,16 +157,18 @@ body {
   animation: slideUp 0.6s ease-out 0.1s both;
 }
 
-.glass{
+.glass {
   backdrop-filter: blur(20px);
   background-color: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
 }
 
 /* ─── Input Section ───────────────────────────────────────── */
+
+.input-section {
+  margin-bottom: 25px;
+}
 
 .input-wrapper {
   position: relative;
@@ -175,61 +177,80 @@ body {
 }
 
 .input-field {
+  width: 100%;
   border-radius: 12px;
-  padding: 20px 16px 8px; /* top padding makes room for floating label */
+  padding: 22px 16px 8px; /* top padding makes room for floating label */
   color: var(--text);
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   backdrop-filter: blur(10px);
-  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .input-field::placeholder {
-  color: transparent; /* hide default placeholder */
+  color: transparent; /* hide default placeholder — label handles this */
 }
 
+/* Floating Label */
 .input-label {
   position: absolute;
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  font-size: 24px;
+  font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   color: var(--text-secondary);
   transition: all 0.25s ease;
   pointer-events: none;
-  background: var(--background); /* match your bg color */
+  background: transparent;
   padding: 0 4px;
 }
 
-/* For textarea — label starts at top not middle */
+/* Textarea label starts at top, not middle */
 .note-field ~ .input-label {
-  top: 20px;
+  top: 16px;
   transform: none;
 }
 
-/* Float up on focus or when filled */
+/* Float label up when focused or has text */
 .input-field:focus ~ .input-label,
 .input-field:not(:placeholder-shown) ~ .input-label {
-  top: 0;
-  font-size: -100px;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0);
+  top: 6px;
+  transform: none;
+  font-size: 0.72rem;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Textarea floated state */
+.note-field:focus ~ .input-label,
+.note-field:not(:placeholder-shown) ~ .input-label {
+  top: 4px;
+  font-size: 0.72rem;
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--primary);
-  background: rgba(255, 255, 255, 0.008);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  background: rgba(102, 126, 234, 0.08);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
   transform: translateY(-2px);
 }
 
-/* ─── Labels ──────────────────────────────────────────────── */
+.note-field {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ─── Labels Section ──────────────────────────────────────── */
 
 .labels-section {
-  margin-top: 20px;
+  margin-top: 8px;
   margin-bottom: 20px;
 }
 
@@ -279,29 +300,30 @@ body {
 .due-date-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 16px;
 }
 
 .due-date-section label {
-  margin-top: -68px ;
-  font-size: 20px;
+  font-size: 0.95rem;
   font-weight: 500;
   white-space: nowrap;
-  color: var(--text);
+  color: var(--text-secondary);
+  flex-shrink: 0;
 }
 
 .date-input {
   flex: 1;
-  margin-top: 15px;
-  margin-left: -80px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
-  padding: 10px 10px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
   color: var(--text);
   font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
   color-scheme: dark;
@@ -309,8 +331,6 @@ body {
 
 .date-input:focus {
   outline: none;
-  border-color: var(--primary);
-  background: rgba(102, 126, 234, 0.1);
 }
 
 /* ─── Add Task Button ─────────────────────────────────────── */
@@ -352,8 +372,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--glass-light) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
   animation: slideUp 0.6s ease-out 0.2s both;
 }
 
@@ -675,22 +699,18 @@ body {
     padding: 60px 40px;
   }
 
-  .title {
-    font-size: 3rem;
-  }
+  .title { font-size: 3rem; }
 
-  .glass-card {
-    padding: 40px;
-  }
+  .glass-card { padding: 40px; }
 
   .input-field {
     font-size: 1.05rem;
-    padding: 16px 18px;
+    padding: 22px 18px 8px;
   }
 
-  .task-title {
-    font-size: 1.05rem;
-  }
+  .input-label { font-size: 1.05rem; }
+
+  .task-title { font-size: 1.05rem; }
 
   .add-task-btn {
     font-size: 1.05rem;
@@ -703,9 +723,7 @@ body {
     padding: 10px 20px;
   }
 
-  .task-item {
-    padding: 20px 22px;
-  }
+  .task-item { padding: 20px 22px; }
 }
 
 /* ─── Desktop: 1024px – 1439px ────────────────────────────── */
@@ -715,9 +733,7 @@ body {
     padding: 50px 30px;
   }
 
-  .title {
-    font-size: 2.6rem;
-  }
+  .title { font-size: 2.6rem; }
 }
 
 /* ─── Tablet Landscape: 768px – 1023px ───────────────────── */
@@ -727,25 +743,15 @@ body {
     padding: 40px 24px;
   }
 
-  .title {
-    font-size: 2.2rem;
-  }
+  .title { font-size: 2.2rem; }
 
-  .glass-card {
-    padding: 26px;
-  }
+  .glass-card { padding: 26px; }
 
-  .label-buttons {
-    gap: 8px;
-  }
+  .label-buttons { gap: 8px; }
 
-  .filter-section {
-    gap: 8px;
-  }
+  .filter-section { gap: 8px; }
 
-  .task-item {
-    padding: 14px 16px;
-  }
+  .task-item { padding: 14px 16px; }
 }
 
 /* ─── Tablet Portrait: 600px – 767px ─────────────────────── */
@@ -755,17 +761,11 @@ body {
     padding: 30px 20px;
   }
 
-  .title {
-    font-size: 2rem;
-  }
+  .title { font-size: 2rem; }
 
   .glass-card {
     padding: 22px;
     border-radius: 16px;
-  }
-
-  .label-buttons {
-    gap: 8px;
   }
 
   .label-btn {
@@ -783,25 +783,19 @@ body {
     gap: 12px;
   }
 
-  .due-date-section {
-    gap: 10px;
-  }
+  .due-date-section { gap: 12px; }
 }
 
 /* ─── Mobile Large: 480px – 599px ────────────────────────── */
 @media (min-width: 480px) and (max-width: 599px) {
-  .app-container {
-    padding: 24px 16px;
-  }
+  .app-container { padding: 24px 16px; }
 
   .title {
     font-size: 1.9rem;
     letter-spacing: -0.5px;
   }
 
-  .task-count {
-    font-size: 0.88rem;
-  }
+  .task-count { font-size: 0.88rem; }
 
   .glass-card {
     padding: 20px;
@@ -809,12 +803,8 @@ body {
   }
 
   .input-field {
-    padding: 12px 14px;
+    padding: 20px 14px 8px;
     font-size: 0.95rem;
-  }
-
-  .label-buttons {
-    gap: 8px;
   }
 
   .label-btn {
@@ -826,21 +816,10 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-  }
-  .date
-  .date-input {
-    margin-left: 40px;
-    width: 100%;
+    padding: 12px 14px;
   }
 
-    .due-date-section label {
-    margin-top: 25px;
-
-  }
-
-  .filter-section {
-    gap: 6px;
-  }
+  .date-input { width: 100%; }
 
   .filter-btn {
     padding: 6px 12px;
@@ -853,9 +832,7 @@ body {
     border-radius: 12px;
   }
 
-  .task-title {
-    font-size: 0.95rem;
-  }
+  .task-title { font-size: 0.95rem; }
 
   .task-title-row {
     flex-direction: column;
@@ -868,25 +845,19 @@ body {
     font-size: 0.95rem;
   }
 
-  .empty-state {
-    padding: 60px 20px;
-  }
+  .empty-state { padding: 60px 20px; }
 }
 
 /* ─── Mobile Small: 360px – 479px ────────────────────────── */
 @media (min-width: 360px) and (max-width: 479px) {
-  .app-container {
-    padding: 20px 14px;
-  }
+  .app-container { padding: 20px 14px; }
 
   .title {
     font-size: 1.7rem;
     letter-spacing: -0.5px;
   }
 
-  .task-count {
-    font-size: 0.82rem;
-  }
+  .task-count { font-size: 0.82rem; }
 
   .glass-card {
     padding: 16px;
@@ -894,27 +865,23 @@ body {
   }
 
   .input-field {
-    padding: 11px 13px;
+    padding: 20px 13px 8px;
     font-size: 0.92rem;
     border-radius: 10px;
   }
 
-  .note-field {
-    min-height: 70px;
-  }
+  .input-label { font-size: 0.92rem; }
 
-  .labels-section {
-    margin-bottom: 16px;
-  }
+  .note-field { min-height: 70px; }
+
+  .labels-section { margin-bottom: 16px; }
 
   .label-text {
     font-size: 0.82rem;
     margin-bottom: 10px;
   }
 
-  .label-buttons {
-    gap: 6px;
-  }
+  .label-buttons { gap: 6px; }
 
   .label-btn {
     padding: 5px 11px;
@@ -925,20 +892,21 @@ body {
   .due-date-section {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
+    padding: 10px 12px;
     margin-bottom: 16px;
   }
 
   .due-date-section label {
-    margin-top: 30px;
     font-size: 0.85rem;
+    margin: 0;
   }
 
   .date-input {
-    margin-left:25px ;
     width: 100%;
-    padding: 9px 12px;
+    padding: 6px 0;
     font-size: 0.9rem;
+    margin: 0;
   }
 
   .add-task-btn {
@@ -964,9 +932,7 @@ body {
     border-radius: 12px;
   }
 
-  .task-title {
-    font-size: 0.92rem;
-  }
+  .task-title { font-size: 0.92rem; }
 
   .task-title-row {
     flex-direction: column;
@@ -979,13 +945,9 @@ body {
     padding: 3px 8px;
   }
 
-  .task-note {
-    font-size: 0.82rem;
-  }
+  .task-note { font-size: 0.82rem; }
 
-  .task-date {
-    font-size: 0.78rem;
-  }
+  .task-date { font-size: 0.78rem; }
 
   .checkbox-btn {
     width: 26px;
@@ -1007,21 +969,13 @@ body {
     border-radius: 12px;
   }
 
-  .progress-info {
-    font-size: 0.82rem;
-  }
+  .progress-info { font-size: 0.82rem; }
 
-  .empty-state {
-    padding: 50px 16px;
-  }
+  .empty-state { padding: 50px 16px; }
 
-  .empty-icon {
-    font-size: 3rem;
-  }
+  .empty-icon { font-size: 3rem; }
 
-  .empty-state p {
-    font-size: 0.95rem;
-  }
+  .empty-state p { font-size: 0.95rem; }
 
   .error-banner {
     padding: 12px 14px;
@@ -1032,18 +986,14 @@ body {
 
 /* ─── Mobile XS: below 360px ─────────────────────────────── */
 @media (max-width: 359px) {
-  .app-container {
-    padding: 16px 10px;
-  }
+  .app-container { padding: 16px 10px; }
 
   .title {
     font-size: 1.5rem;
     letter-spacing: 0;
   }
 
-  .task-count {
-    font-size: 0.78rem;
-  }
+  .task-count { font-size: 0.78rem; }
 
   .glass-card {
     padding: 14px;
@@ -1051,9 +1001,29 @@ body {
   }
 
   .input-field {
-    padding: 10px 12px;
+    padding: 18px 12px 8px;
     font-size: 0.88rem;
     border-radius: 9px;
+  }
+
+  .input-label { font-size: 0.88rem; }
+
+  .due-date-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+
+  .due-date-section label {
+    font-size: 0.82rem;
+    margin: 0;
+  }
+
+  .date-input {
+    width: 100%;
+    margin: 0;
+    font-size: 0.85rem;
   }
 
   .label-btn {
@@ -1076,9 +1046,7 @@ body {
     gap: 8px;
   }
 
-  .task-title {
-    font-size: 0.88rem;
-  }
+  .task-title { font-size: 0.88rem; }
 
   .checkbox-btn {
     width: 24px;
@@ -1098,7 +1066,7 @@ body {
   .blob-3 { width: 180px; height: 180px; }
 }
 
-/* ─── Hover: touch devices (disable hover effects) ───────── */
+/* ─── Touch Devices: disable hover effects ────────────────── */
 @media (hover: none) and (pointer: coarse) {
   .task-item:hover {
     transform: none;
@@ -1109,21 +1077,13 @@ body {
 
   .label-btn:hover,
   .filter-btn:hover,
-  .add-task-btn:hover:not(:disabled) {
-    transform: none;
-  }
-
-  .delete-btn:hover {
-    transform: none;
-  }
-
+  .add-task-btn:hover:not(:disabled),
+  .delete-btn:hover,
   .checkbox-btn:hover {
     transform: none;
   }
 
-  .input-field:focus {
-    transform: none;
-  }
+  .input-field:focus { transform: none; }
 }
 
 /* ─── Reduced Motion ──────────────────────────────────────── */
