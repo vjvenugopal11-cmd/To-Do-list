@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://to-do-list-bq9f.onrender.com",
+  baseURL: "https://to-do-list-bq9f.onrender.com/api/tasks",
   timeout: 60000,
 });
 
 // Wake up the Render server on app load
 export const pingServer = async () => {
   try {
-    await API.get("/ping");
+    await axios.get("https://to-do-list-bq9f.onrender.com/ping", { timeout: 60000 });
     console.log("✅ Server is awake");
   } catch {
     console.log("⏳ Server waking up...");
