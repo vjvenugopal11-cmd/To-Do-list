@@ -213,9 +213,9 @@ body {
 .input-field:focus ~ .input-label,
 .input-field:not(:placeholder-shown) ~ .input-label {
   top: 0;
-  font-size: 0px;
+  font-size: -100px;
   font-weight: bold;
-  color: black;
+  color: rgba(255, 255, 255, 0);
 }
 
 .input-field:focus {
