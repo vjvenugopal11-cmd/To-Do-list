@@ -140,7 +140,7 @@ function App() {
       setTimeout(() => confetti.remove(), 2000);
     }
   };
-  
+
   /* eslint-disable no-unused-vars */
   const handleFilter = (filterType) => {
     setFilter(filterType);
@@ -187,22 +187,33 @@ function App() {
       )}
 
       {/* Input Section */}
-      <div className="input-section glass-card">
-        <input
-          className="input-field glass"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Task title..."
-        />
+<div className="input-section glass-card">
+  
+  {/* Task Title */}
+  <div className="input-wrapper">
+    <input
+      className="input-field glass"
+      type="text"
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      placeholder=" "
+    />
+    <label className="input-label">Task title...</label>
+  </div>
 
-        <textarea
-          className="input-field note-field glass"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Add a note..."
-          rows="3"
-        />
+  {/* Note */}
+  <div className="input-wrapper">
+    <textarea
+      className="input-field note-field glass"
+      value={note}
+      onChange={(e) => setNote(e.target.value)}
+      placeholder=" "
+      rows="3"
+    />
+    <label className="input-label">Add a note...</label>
+  </div>
+
+  {/* rest of your code stays the same... */}
 
         {/* Labels */}
         <div className="labels-section">
