@@ -140,7 +140,8 @@ function App() {
       setTimeout(() => confetti.remove(), 2000);
     }
   };
-
+  
+  /* eslint-disable no-unused-vars */
   const handleFilter = (filterType) => {
     setFilter(filterType);
   };
