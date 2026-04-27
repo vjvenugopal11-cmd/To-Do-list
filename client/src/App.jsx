@@ -11,7 +11,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("All");
-  const [completedId, setCompletedId] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+const [completedId, setCompletedId] = useState(null);
+
   const containerRef = useRef(null);
 
   // Fetch tasks
