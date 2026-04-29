@@ -9,7 +9,7 @@ function App() {
   const [note, setNote] = useState("");
   const [label, setLabel] = useState("Personal");
   const [dueDate, setDueDate] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("All");
   const [serverReady, setServerReady] = useState(false);
@@ -19,7 +19,7 @@ function App() {
   const [search, setSearch] = useState("");
 
   const containerRef = useRef(null);
-  const completedIdRef = useRef(null);
+  // const completedIdRef = useRef(null);
 
   const LABELS = ["Work", "Personal", "Idea", "Urgent", "Study"];
 
