@@ -1,24 +1,29 @@
 import axios from "axios";
 
+// ---------------- BASE URL ----------------
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://to-do-list-bq9f.onrender.com";
+
+// ---------------- AXIOS INSTANCE ----------------
 const API = axios.create({
-  baseURL: "https://to-do-list-bq9f.onrender.com/api/tasks",
+  baseURL: `${BASE_URL}/api/tasks`,
   timeout: 60000,
 });
 
-// Wake up the Render server on app load
-export const pingServer = async () => {
-  try {
-    await axios.get("https://to-do-list-bq9f.onrender.com/ping", { timeout: 60000 });
-    console.log("✅ Server is awake");
-  } catch {
-    console.log("⏳ Server waking up...");
-  }
-};
-
-// Request interceptor
+// ---------------- REQUEST INTERCEPTOR ----------------
 API.interceptors.request.use(
   (config) => {
-    console.log(`📤 ${config.method.toUpperCase()} ${config.url}`);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers.Authorization = token;
+    }
+
+    console.log(
+      `📤 ${config.method?.toUpperCase()} ${config.url}`
+    );
+
     return config;
   },
   (error) => {
@@ -27,17 +32,33 @@ API.interceptors.request.use(
   }
 );
 
-// Response interceptor
+// ---------------- RESPONSE INTERCEPTOR ----------------
 API.interceptors.response.use(
   (response) => {
     console.log(`✅ ${response.status} Response received`);
     return response;
   },
   (error) => {
-    const message = error.response?.data?.message || error.message;
+    const message =
+      error.response?.data?.message || error.message;
+
     console.error("❌ API Error:", message);
+
     return Promise.reject(error);
   }
 );
+
+// ---------------- SERVER WAKE ----------------
+export const pingServer = async () => {
+  try {
+    await axios.get(`${BASE_URL}/ping`, {
+      timeout: 60000,
+    });
+
+    console.log("✅ Server is awake");
+  } catch {
+    console.log("⏳ Server waking up...");
+  }
+};
 
 export default API;
